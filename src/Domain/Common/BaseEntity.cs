@@ -2,9 +2,9 @@
 
 namespace PoolTools.Pool.API.Domain.Common;
 
-public class BaseEntity<T,TId> where T : StronglyTypedId<TId> where TId : notnull
+public class BaseEntity
 {
-    public T Id { get; set; } = default!;
+    public int Id { get; set; } = default!;
     private readonly List<BaseEvent> _domainEvents = new();
 
     [NotMapped]

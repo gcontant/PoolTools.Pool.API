@@ -1,13 +1,13 @@
+using Application;
 using Infrastructure;
 using Infrastructure.Persistence;
-using MediatR;
 using PoolTools.Pool.API.Domain.Entities.TypeConverters;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddApplicationServices();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -19,8 +19,7 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+
 
 var app = builder.Build();
 

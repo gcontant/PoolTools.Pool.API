@@ -2,8 +2,7 @@
 
 namespace PoolTools.Pool.API.Domain.Entities;
 
-public record PlayerId(int Value) : StronglyTypedId<int>(Value);
-public class Player : BaseEntity<PlayerId, int>
+public class Player : BaseEntity
 {
     public string FullName { get; set; } = string.Empty;
     public Position Position { get; set; } = default!;

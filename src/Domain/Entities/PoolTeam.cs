@@ -1,7 +1,6 @@
 ﻿namespace PoolTools.Pool.API.Domain.Entities;
 
-public record TeamId(int Value) : StronglyTypedId<int>(Value);
-public class PoolTeam : BaseEntity<TeamId, int>
+public class PoolTeam : BaseEntity
 {
     public string Name { get; set; }
     //TODO: convert to an entity (name, email, etc.)
@@ -10,9 +9,8 @@ public class PoolTeam : BaseEntity<TeamId, int>
     public IList<DraftPick> DraftPicks { get; set; } = new List<DraftPick>();
     public IList<Player> Roster { get; set; } = new List<Player>();
 
-    public PoolTeam(TeamId id,string name, string owner)
+    public PoolTeam(string name, string owner)
     {
-        Id = id;
         Name = name;
         Owner = owner;
     }

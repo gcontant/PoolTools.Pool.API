@@ -1,15 +1,12 @@
 ﻿namespace PoolTools.Pool.API.Domain.Entities;
 
-public record PoolId(int Value) : StronglyTypedId<int>(Value);
-
-public class Pool : BaseEntity<PoolId, int>
+public class Pool : BaseEntity
 {
     public string Name { get; set; } = string.Empty;
     public IList<PoolTeam> Teams { get; set; } = new List<PoolTeam>();
 
-    public Pool(PoolId id,string name)
+    public Pool(string name)
     {
-        Id = id;
         Name = name;
     }
 

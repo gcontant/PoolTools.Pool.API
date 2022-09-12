@@ -50,23 +50,23 @@ public class ApplicationContextInitializer
         {
             var teams = new List<PoolTeam>
             {
-                new PoolTeam(new TeamId(1),"All-Blacks","Julien B"),
-                new PoolTeam(new TeamId(2),"Expos","Peter A"),
-                new PoolTeam(new TeamId(3),"Golden Seals","Julien P"),
-                new PoolTeam(new TeamId(4),"Marrons","Marc-Etienne B"),
-                new PoolTeam(new TeamId(5), "Machine","Jean-Daniel B"),
-                new PoolTeam(new TeamId(6), "Nordiques","Jean-Daniel C"),
-                new PoolTeam(new TeamId(7), "Patriots","Jeremy T"),
-                new PoolTeam(new TeamId(8), "Roadrunners","Gabriel C"),
-                new PoolTeam(new TeamId(9), "Rangers","David S"),
-                new PoolTeam(new TeamId(10), "ReHabs","Sylvestre R"),
-                new PoolTeam(new TeamId(11), "Rouge&Or","Steve G"),
-                new PoolTeam(new TeamId(12), "Saints","Maxime T")
+                new PoolTeam("All-Blacks","Julien B"),
+                new PoolTeam("Expos","Peter A"),
+                new PoolTeam("Golden Seals","Julien P"),
+                new PoolTeam("Marrons","Marc-Etienne B"),
+                new PoolTeam("Machine","Jean-Daniel B"),
+                new PoolTeam("Nordiques","Jean-Daniel C"),
+                new PoolTeam("Patriots","Jeremy T"),
+                new PoolTeam("Roadrunners","Gabriel C"),
+                new PoolTeam("Rangers","David S"),
+                new PoolTeam("ReHabs","Sylvestre R"),
+                new PoolTeam("Rouge&Or","Steve G"),
+                new PoolTeam("Saints","Maxime T")
             };
 
             _context.PoolTeams.AddRange(teams);
 
-            var pool = new Pool(new PoolId(1),"LigueQM")
+            var pool = new Pool("LigueQM")
             {
                 Teams = teams
             };

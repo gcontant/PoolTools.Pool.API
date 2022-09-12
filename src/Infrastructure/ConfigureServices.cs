@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Application.Common.Interfaces;
 
 namespace Infrastructure;
 
@@ -22,6 +23,8 @@ public static class ConfigureServices
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)));
         }
+
+        services.AddScoped<IApplicationContext>(provider => provider.GetRequiredService<ApplicationContext>());
 
         return services;
     }
