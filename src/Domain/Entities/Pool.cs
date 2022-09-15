@@ -3,7 +3,7 @@
 public class Pool : BaseEntity
 {
     public string Name { get; set; } = string.Empty;
-    public IList<PoolTeam> Teams { get; set; } = new List<PoolTeam>();
+    public IList<PoolTeam> Teams { get; private set; } = new List<PoolTeam>();
 
     public Pool(string name)
     {

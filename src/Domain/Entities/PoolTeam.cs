@@ -2,6 +2,9 @@
 
 public class PoolTeam : BaseEntity
 {
+    private const int maxRound = 5;
+    private const int maxPosition = 12;
+
     public string Name { get; set; }
     //TODO: convert to an entity (name, email, etc.)
     public string Owner { get; set; }
@@ -9,10 +12,16 @@ public class PoolTeam : BaseEntity
     public IList<DraftPick> DraftPicks { get; set; } = new List<DraftPick>();
     public IList<Player> Roster { get; set; } = new List<Player>();
 
-    public PoolTeam(string name, string owner)
+    // Empty constructor for EF
+    private PoolTeam()
+    { }
+
+    public PoolTeam(string name, string owner, IList<DraftPick> draftPicks)
     {
         Name = name;
         Owner = owner;
+
+        DraftPicks = draftPicks;
     }
 
     //TODO: Move to Application layer??
@@ -26,7 +35,7 @@ public class PoolTeam : BaseEntity
 
         if (playerReceived.Any(p => !Roster.Contains(p)))
         {
-            throw new UnsupportedPlayerTradeException( tradePartner.Name, Name);
+            throw new UnsupportedPlayerTradeException(tradePartner.Name, Name);
         }
 
         if (draftPicksTraded.Any(p => !DraftPicks.Contains(p)))

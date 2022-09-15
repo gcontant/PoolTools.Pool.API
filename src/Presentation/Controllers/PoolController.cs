@@ -1,4 +1,5 @@
 ﻿using Application.Pools.Queries.GetPools;
+using Application.PoolTeams.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,18 @@ namespace Presentation.Controllers
         public async Task<ActionResult<List<PoolDto>>> GetPools()
         {
             return await _mediator.Send(new GetPoolsQuery());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PoolDto>> GetPools(int id)
+        {
+            return await _mediator.Send(new GetPoolByIdQuery { poolId = id });
+        }
+
+        [HttpGet("{poolId}/{teamId}")]
+        public async Task<ActionResult<DetailedPoolTeamDto>> GetPoolTeam(int poolId, int teamId)
+        {
+            return await _mediator.Send(new GetPoolTeamQuery { PoolId = poolId, TeamId = teamId });
         }
     }
 }

@@ -5,10 +5,9 @@ public class DraftPick : ValueObject
     public int Round { get; set; }
     public int Position { get; set; }
 
-    static DraftPick()
-    { }
+    public int OverallPosition => Position + (Round-1) * Position;
 
-    private DraftPick()
+    static DraftPick()
     { }
 
     private DraftPick(int round, int position)
@@ -19,12 +18,23 @@ public class DraftPick : ValueObject
 
     public static DraftPick From(int round, int position)
     {
-        if (round > 5 || position > 12)
+        if (IsInvalidRound(round) || IsInvalidPosition(position))
         {
             throw new UnsupportedDraftPickException(round, position);
         }
 
-        return new DraftPick(round,position);
+        return new DraftPick(round, position);
+    }
+
+    private static bool IsInvalidPosition(int position)
+    {
+        //TODO Reset it back to 12 after initial load
+        return position < 0 || position > 13;
+    }
+
+    private static bool IsInvalidRound(int round)
+    {
+        return round < 0 || round > 5;
     }
 
     public override string ToString()

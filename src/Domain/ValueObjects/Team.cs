@@ -4,14 +4,9 @@ namespace PoolTools.Pool.API.Domain.ValueObjects;
 
 public class Team : ValueObject
 {
-    [MaxLength(3)]
-    [MinLength(3)]
-    public string Code { get; set; } = string.Empty;
+    public string Code { get; set; } = default!;
 
     static Team()
-    { }
-
-    private Team()
     { }
 
     private Team(string code)

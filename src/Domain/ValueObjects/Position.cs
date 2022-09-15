@@ -54,17 +54,6 @@ public class Position : ValueObject
         }
     }
 
-    protected static IEnumerable<string> SkaterPositions
-    {
-        get
-        {
-            yield return Center.Code;
-            yield return RightWing.Code;
-            yield return LeftWing.Code;
-            yield return Defenseman.Code;
-        }
-    }
-
     protected static IEnumerable<string> ForwardPositions
     {
         get

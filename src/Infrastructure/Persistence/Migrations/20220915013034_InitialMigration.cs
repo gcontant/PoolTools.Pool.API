@@ -33,7 +33,7 @@ namespace Infrastructure.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR PoolTeamSequence"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Owner = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    PoolId = table.Column<int>(type: "int", nullable: true)
+                    PoolId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,7 +42,8 @@ namespace Infrastructure.Persistence.Migrations
                         name: "FK_PoolTeams_Pools_PoolId",
                         column: x => x.PoolId,
                         principalTable: "Pools",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -70,10 +71,11 @@ namespace Infrastructure.Persistence.Migrations
                 name: "Player",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FullName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Position_Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Team_Code = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Team = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PoolTeamId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

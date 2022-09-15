@@ -14,7 +14,16 @@ public class PlayerConfiguration : IEntityTypeConfiguration<Player>
             .HasMaxLength(150)
             .IsRequired();
 
-        builder.OwnsOne(p => p.Position);
-        builder.OwnsOne(p => p.Team);
+        builder.OwnsOne(p => p.Position,
+            sa =>
+            {
+                sa.Property(p => p.Code).HasColumnName("Position");
+                sa.Ignore(p => p.IsForward);
+            });
+        builder.OwnsOne(p => p.Team,
+            sa =>
+            {
+                sa.Property(t => t.Code).HasColumnName("Team");
+            });
     }
 }

@@ -20,6 +20,12 @@ public class PoolTeamConfiguration : IEntityTypeConfiguration<PoolTeam>
             .HasMaxLength(100)
             .IsRequired();
 
-        builder.OwnsMany(t => t.DraftPicks);
+        builder.OwnsMany(t => t.DraftPicks,
+            sa =>
+            {
+                sa.Property(p => p.Round).HasColumnName("Round");
+                sa.Property(p => p.Position).HasColumnName("Position");
+                sa.Ignore(p => p.OverallPosition);
+            });
     }
 }

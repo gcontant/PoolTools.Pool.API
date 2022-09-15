@@ -15,5 +15,7 @@ public class PoolConfiguration : IEntityTypeConfiguration<Pool>
         builder.Property(p => p.Name)
             .HasMaxLength(50)
             .IsRequired();
+
+        builder.HasMany(p => p.Teams).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
     }
 }
