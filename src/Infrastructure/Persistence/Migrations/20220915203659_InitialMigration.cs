@@ -9,6 +9,9 @@ namespace Infrastructure.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateSequence(
+                name: "PlayerSequence");
+
+            migrationBuilder.CreateSequence(
                 name: "PoolSequence");
 
             migrationBuilder.CreateSequence(
@@ -68,29 +71,29 @@ namespace Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Player",
+                name: "Players",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR PlayerSequence"),
                     FullName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Team = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Position = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
+                    Team = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    AAV = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
                     PoolTeamId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Player", x => x.Id);
+                    table.PrimaryKey("PK_Players", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Player_PoolTeams_PoolTeamId",
+                        name: "FK_Players_PoolTeams_PoolTeamId",
                         column: x => x.PoolTeamId,
                         principalTable: "PoolTeams",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Player_PoolTeamId",
-                table: "Player",
+                name: "IX_Players_PoolTeamId",
+                table: "Players",
                 column: "PoolTeamId");
 
             migrationBuilder.CreateIndex(
@@ -105,13 +108,16 @@ namespace Infrastructure.Persistence.Migrations
                 name: "DraftPick");
 
             migrationBuilder.DropTable(
-                name: "Player");
+                name: "Players");
 
             migrationBuilder.DropTable(
                 name: "PoolTeams");
 
             migrationBuilder.DropTable(
                 name: "Pools");
+
+            migrationBuilder.DropSequence(
+                name: "PlayerSequence");
 
             migrationBuilder.DropSequence(
                 name: "PoolSequence");

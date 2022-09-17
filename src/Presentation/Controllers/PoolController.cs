@@ -31,10 +31,6 @@ namespace Presentation.Controllers
             return await _mediator.Send(new GetPoolByIdQuery { poolId = id });
         }
 
-        [HttpGet("{poolId}/{teamId}")]
-        public async Task<ActionResult<DetailedPoolTeamDto>> GetPoolTeam(int poolId, int teamId)
-        {
-            return await _mediator.Send(new GetPoolTeamQuery { PoolId = poolId, TeamId = teamId });
-        }
+        
     }
 }

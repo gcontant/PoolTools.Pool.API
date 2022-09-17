@@ -75,7 +75,18 @@ public class ApplicationContextInitializer
 
             _context.Pools.Add(pool);
 
-            await _context.SaveChangesAsync();
+            var poolOptions = new PoolOptions
+            {
+                Pool = pool,
+                MaximumCap = 82500000,
+                RosterSize = 20,
+                RequiredForwards = 9,
+                RequiredDefencemen = 4,
+                RequiredGoaltenders = 1
+            };
+            _context.PoolOptions.Add(poolOptions);
+
+            await _context.SaveChangesAsync(CancellationToken.None);
         }
     }
 }

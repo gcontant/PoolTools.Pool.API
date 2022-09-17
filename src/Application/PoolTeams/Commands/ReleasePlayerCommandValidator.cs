@@ -1,0 +1,36 @@
+﻿using Application.Common.Interfaces;
+using FluentValidation;
+
+namespace Application.PoolTeams.Commands;
+
+public sealed class ReleasePlayerCommandValidator : AbstractValidator<ReleasePlayerCommand>
+{
+    private readonly IApplicationContext _context;
+
+    public ReleasePlayerCommandValidator(IApplicationContext context)
+    {
+        _context = context;
+
+        RuleFor(c => c.TeamId)
+            .MustAsync(BeExistingTeam).WithMessage("Can't release a player from an inexistant team.");
+
+        RuleFor(c => c.PlayerId)
+            .MustAsync(BeExistingPlayer).WithMessage("Can't release a inexistant player.");
+
+
+    }
+
+    private async Task<bool> BeExistingPlayer(int playerId, CancellationToken cancellationToken)
+    {
+        var team = await _context.Players.FindAsync(new object[] { playerId }, cancellationToken);
+
+        return team != null;
+    }
+
+    private async Task<bool> BeExistingTeam(int teamId, CancellationToken cancellationToken)
+    {
+        var team = await _context.PoolTeams.FindAsync(new object[] { teamId }, cancellationToken);
+
+        return team != null;
+    }
+}

@@ -5,6 +5,8 @@ public class Pool : BaseEntity
     public string Name { get; set; } = string.Empty;
     public IList<PoolTeam> Teams { get; private set; } = new List<PoolTeam>();
 
+    public PoolOptions Options { get; set; }
+
     public Pool(string name)
     {
         Name = name;

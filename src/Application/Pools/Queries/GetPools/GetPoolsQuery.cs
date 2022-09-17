@@ -25,8 +25,9 @@ public class GetPoolsQueryHandler : IRequestHandler<GetPoolsQuery, List<PoolDto>
     {
         return await _context.Pools
             .AsNoTracking()
+            .Include(p => p.Options)
             .ProjectTo<PoolDto>(_mapper.ConfigurationProvider)
             .OrderBy(p => p.Name)
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Pools.Queries.GetPools;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,12 +26,10 @@ public sealed class GetPoolTeamQueryHandler : IRequestHandler<GetPoolTeamQuery, 
 
     public async Task<DetailedPoolTeamDto> Handle(GetPoolTeamQuery request, CancellationToken cancellationToken)
     {
-        var pool = await _context.Pools.AsNoTracking()
-            .Include(p => p.Teams)
-            .ThenInclude(t => t.DraftPicks)
-            .FirstAsync((p) => p.Id == request.PoolId,cancellationToken);
-
-        var team = pool.Teams.Single(t => t.Id == request.TeamId);
+        var team = await _context.PoolTeams.AsNoTracking()
+            .Include(t => t.DraftPicks)
+            .Include(t => t.Roster)
+            .FirstAsync(t => t.Id == request.TeamId, cancellationToken);
 
         return _mapper.Map<DetailedPoolTeamDto>(team);
     }

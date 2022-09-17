@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220915013034_InitialMigration")]
+    [Migration("20220915203659_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,8 @@ namespace Infrastructure.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.HasSequence("PlayerSequence");
+
             modelBuilder.HasSequence("PoolSequence");
 
             modelBuilder.HasSequence("PoolTeamSequence");
@@ -32,9 +34,12 @@ namespace Infrastructure.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR PlayerSequence");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<decimal>("AAV")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -48,7 +53,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PoolTeamId");
 
-                    b.ToTable("Player");
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("PoolTools.Pool.API.Domain.Entities.Pool", b =>
@@ -104,16 +109,18 @@ namespace Infrastructure.Persistence.Migrations
                     b.OwnsOne("PoolTools.Pool.API.Domain.ValueObjects.Position", "Position", b1 =>
                         {
                             b1.Property<int>("PlayerId")
+                                .ValueGeneratedOnAdd()
                                 .HasColumnType("int");
 
                             b1.Property<string>("Code")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)")
+                                .HasMaxLength(2)
+                                .HasColumnType("nvarchar(2)")
                                 .HasColumnName("Position");
 
                             b1.HasKey("PlayerId");
 
-                            b1.ToTable("Player");
+                            b1.ToTable("Players");
 
                             b1.WithOwner()
                                 .HasForeignKey("PlayerId");
@@ -122,16 +129,18 @@ namespace Infrastructure.Persistence.Migrations
                     b.OwnsOne("PoolTools.Pool.API.Domain.ValueObjects.Team", "Team", b1 =>
                         {
                             b1.Property<int>("PlayerId")
+                                .ValueGeneratedOnAdd()
                                 .HasColumnType("int");
 
                             b1.Property<string>("Code")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)")
+                                .HasMaxLength(3)
+                                .HasColumnType("nvarchar(3)")
                                 .HasColumnName("Team");
 
                             b1.HasKey("PlayerId");
 
-                            b1.ToTable("Player");
+                            b1.ToTable("Players");
 
                             b1.WithOwner()
                                 .HasForeignKey("PlayerId");

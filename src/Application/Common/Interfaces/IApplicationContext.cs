@@ -5,6 +5,8 @@ namespace Application.Common.Interfaces;
 public interface IApplicationContext
 {
     DbSet<Pool> Pools { get; }
+    DbSet<PoolTeam> PoolTeams { get; }
+    DbSet<Player> Players { get; }
 
-    Task SaveChanges(CancellationToken cancellationToken);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

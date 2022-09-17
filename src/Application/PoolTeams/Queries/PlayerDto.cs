@@ -8,5 +8,5 @@ public sealed class PlayerDto : IMapFrom<Player>
     public string FullName { get; set; }
     public string Position { get; set; }
     public string TeamCode { get; set; }
-    public int AAV { get; set; }
+    public decimal AAV { get; set; }
 }

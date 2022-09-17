@@ -10,7 +10,7 @@ public class PoolTeam : BaseEntity
     public string Owner { get; set; }
 
     public IList<DraftPick> DraftPicks { get; set; } = new List<DraftPick>();
-    public IList<Player> Roster { get; set; } = new List<Player>();
+    public IList<Player> Roster { get; private set; } = new List<Player>();
 
     // Empty constructor for EF
     private PoolTeam()
@@ -24,30 +24,8 @@ public class PoolTeam : BaseEntity
         DraftPicks = draftPicks;
     }
 
-    //TODO: Move to Application layer??
     public void Trade(PoolTeam tradePartner, IEnumerable<Player> playersTraded, IEnumerable<Player> playerReceived, IEnumerable<DraftPick> draftPicksTraded, IEnumerable<DraftPick> draftPicksReceived)
     {
-        //TODO: Introduce TradeValidator
-        if (playersTraded.Any(p => !Roster.Contains(p)))
-        {
-            throw new UnsupportedPlayerTradeException(Name, tradePartner.Name);
-        }
-
-        if (playerReceived.Any(p => !Roster.Contains(p)))
-        {
-            throw new UnsupportedPlayerTradeException(tradePartner.Name, Name);
-        }
-
-        if (draftPicksTraded.Any(p => !DraftPicks.Contains(p)))
-        {
-            throw new UnsupportedDraftPickTradeException(Name, tradePartner.Name);
-        }
-
-        if (draftPicksReceived.Any(p => !tradePartner.DraftPicks.Contains(p)))
-        {
-            throw new UnsupportedDraftPickTradeException(tradePartner.Name, Name);
-        }
-
         foreach (var player in playersTraded)
         {
             Roster.Remove(player);
@@ -73,4 +51,23 @@ public class PoolTeam : BaseEntity
         }
     }
 
+    public void Draft(Player player)
+    {
+        if (Roster.Contains(player))
+        {
+            throw new UnsupportedPlayerDraftException(Id, player);
+        }
+
+        Roster.Add(player);
+    }
+
+    public void Release(Player player)
+    {
+        if (!Roster.Contains(player) )
+        {
+            throw new UnsupportedPlayerReleaseException(Id ,player);
+        }
+
+        Roster.Remove(player);
+    }
 }

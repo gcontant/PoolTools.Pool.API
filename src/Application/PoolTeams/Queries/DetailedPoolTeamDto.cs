@@ -10,4 +10,7 @@ public class DetailedPoolTeamDto : IMapFrom<PoolTeam>
 
     public IList<DraftPickDto> DraftPicks { get; set; } = new List<DraftPickDto>();
     public IList<PlayerDto> Roster { get; set; } = new List<PlayerDto>();
+
+    //TODO: Add required by position
+    //TODO: Add remaining Cap Space
 }

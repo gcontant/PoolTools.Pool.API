@@ -20,12 +20,16 @@ public class ApplicationContext : DbContext, IApplicationContext
     }
 
     public DbSet<Pool> Pools => Set<Pool>();
+    public DbSet<PoolOptions> PoolOptions => Set<PoolOptions>();
     public DbSet<PoolTeam> PoolTeams => Set<PoolTeam>();
+    public DbSet<Player> Players => Set<Player>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+
         builder.HasSequence(Constants.PoolSequenceName);
         builder.HasSequence(Constants.PoolTeamSequenceName);
+        builder.HasSequence(Constants.PlayerSequenceName);
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
@@ -87,8 +91,8 @@ public class ApplicationContext : DbContext, IApplicationContext
             null);
     }
 
-    Task IApplicationContext.SaveChanges(CancellationToken cancellationToken)
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await base.SaveChangesAsync(cancellationToken);
     }
 }

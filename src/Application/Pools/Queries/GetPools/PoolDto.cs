@@ -7,4 +7,5 @@ public class PoolDto : IMapFrom<Pool>
 {
     public string Name { get; set; } = string.Empty;
     public IList<PoolTeamDto> Teams { get; set; } = new List<PoolTeamDto>();
+    public PoolOptionsDto Options { get; set; } = new PoolOptionsDto();
 }
